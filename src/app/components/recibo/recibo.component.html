@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="fechar()">Fechar</ion-button>
+    </ion-buttons>
+    <ion-title>Comanda {{ idComanda }} </ion-title>
+    <ion-icon
+    slot="end"
+      name="checkmark-circle"
+      color="success"
+      size="large"
+      class="ion-padding"
+      *ngIf="comanda.pago"
+    ></ion-icon>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+  <ion-list lines="full" [inset]="true" mode="ios">
+    <ion-item
+      *ngFor="let pedido of comanda.pedidos"
+      [ngClass]="pedido.status == 'Cancelado' ? 'cancelado' : 'aberto'"
+    >
+      <ion-label>
+        <h3>{{ pedido.item.nome }}</h3>
+      </ion-label>
+      <ion-text class="strong" slot="end" *ngIf="pedido.status !== 'Cancelado'">
+        {{ pedido.preco | currency : "BRL" }}
+      </ion-text>
+      <ion-text slot="end" *ngIf="pedido.status == 'Cancelado'">
+        Cancelado
+      </ion-text>
+    </ion-item>
+  </ion-list>
+  <ion-list lines="full" [inset]="true" mode="ios">
+    <ion-item class="strong" lines="none">
+      <ion-label> Total </ion-label>
+      <ion-text class="strong" slot="end">
+        <b>{{ comanda.total | currency : "BRL" }}</b>
+      </ion-text>
+    </ion-item>
+  </ion-list>
+  <div
+    *ngIf="!comanda.pago"
+    class="ion-padding-start ion-padding-end ion-padding-bottom"
+  >
+    <ion-button (click)="pagarComanda()" size="block" color="success"
+      >Confirmar Pagamento</ion-button
+    >
+  </div>
+  <div
+    *ngIf="comanda.pago"
+    class="ion-padding-start ion-padding-end ion-padding-bottom"
+  >
+    <ion-button disabled="true" size="block" fill="outline" color="success"
+      >Comanda Paga</ion-button
+    >
+  </div>
+</ion-content>

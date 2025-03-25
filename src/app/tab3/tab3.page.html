@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Cozinha </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Cozinha</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid fixed="true">
+    <ion-row>
+      <ion-col>
+        <ion-list inset="true" lines="full" *ngFor="let grupo of pedidos">
+          <ion-item>
+            <ion-label>
+              <h1>
+                {{grupo.status}}
+                <ion-icon *ngIf="grupo.status == 'Pedido'" name="warning" color="primary"></ion-icon>
+                <ion-icon *ngIf="grupo.status == 'Preparando'" name="alert-circle" color="warning"></ion-icon>
+                <ion-icon *ngIf="grupo.status == 'Pronto'" name="checkmark-done" color="success"></ion-icon>
+              </h1>
+            </ion-label>
+            <ion-note slot="end" *ngIf="grupo.status == 'Pedido'"
+              >Aguardando</ion-note
+            >
+          </ion-item>
+          <ion-item *ngFor="let pedido of grupo.pedidos">
+            <ion-label>
+              <h2>{{pedido?.cardapio?.nome}} (Mesa {{pedido.mesa}})</h2>
+              <p>{{pedido?.cardapio?.descricao}}</p>
+              <p class="strong">{{pedido?.observacao}}</p>
+            </ion-label>
+            <ion-button
+              slot="end"
+              *ngIf="grupo.status == 'Pedido'"
+              (click)="iniciarPreparo(pedido.id)"
+              >Iniciar Preparo</ion-button
+            >
+            <time *ngIf="grupo.status == 'Preparando'"
+              >{{atualizaTempo(pedido.atualizado_em)}}</time
+            >
+            <ion-button
+              slot="end"
+              *ngIf="grupo.status == 'Preparando'"
+              color="warning"
+              (click)="finalizarPreparo(pedido)"
+              >Pronto!</ion-button
+            >
+            <ion-button
+              slot="end"
+              *ngIf="grupo.status == 'Pronto'"
+              fill="outline"
+              (click)="iniciarPreparo(pedido.id)"
+              >Retornar Ao Preparo</ion-button
+            >
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

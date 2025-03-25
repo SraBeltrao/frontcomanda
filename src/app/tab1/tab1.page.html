@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Mesas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Mesas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid fixed="true">
+    <ion-row>
+      <ion-col class="ion-no-padding" size="6" sizeMd="4" sizeLg="3"  *ngFor="let mesa of mesas">
+        <ion-card (click)="abrirComanda(mesa)" class="mesa" [ngClass]="mesa.disponivel ? 'disponivel' : 'indisponivel'">
+          <ion-card-content class="ion-no-padding" >
+            <h2>{{mesa.numero}}</h2>
+            <p class="detalhes">
+              <ion-chip color="primary">
+                <ion-icon name="people" color="primary"></ion-icon>
+                <ion-label>{{mesa.capacidade}}</ion-label>
+              </ion-chip>
+              <ion-chip color="success" *ngIf="mesa.disponivel">
+                <ion-icon name="browsers-outline" ></ion-icon>
+                <ion-label>Disponível</ion-label>
+              </ion-chip>
+              <ion-chip color="warning" *ngIf="!mesa.disponivel">
+                <ion-icon name="browsers" ></ion-icon>
+                <ion-label>Ocupado</ion-label>
+              </ion-chip>
+            </p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "commanda-digital",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

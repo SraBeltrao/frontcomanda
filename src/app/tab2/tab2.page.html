@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Comandas </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Comandas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid fixed="true">
+    <ion-row>
+      <ion-col>
+        <ion-list inset="true" lines="full">
+          <ion-item *ngFor="let comanda of comandas" button="true" (click)="abrirComanda(comanda)">
+            <ion-label>
+              <h2>Mesa {{comanda.mesa.numero}} - Comanda: {{comanda.id.toString().padStart(5, '0')}}</h2>
+              <p>{{comanda.total | currency: "BRL"}}</p>
+            </ion-label>
+            <div class="metadata-end-wrapper" slot="end" *ngIf="!comanda.pago">
+              <ion-note color="warning" *ngIf="!comanda.aberta"
+                >Fechada</ion-note
+              >
+              <ion-note color="medium" *ngIf="comanda.aberta">Aberta</ion-note>
+            </div>
+            <div class="metadata-end-wrapper" slot="end" *ngIf="comanda.pago">
+              <ion-note color="success">Paga</ion-note>
+            </div>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

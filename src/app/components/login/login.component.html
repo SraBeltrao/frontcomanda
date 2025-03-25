@@ -1,0 +1,58 @@
+<ion-content>
+  <ion-grid class="ion-padding">
+    <ion-row>
+      <ion-col>
+        <h1>Commanda Digital</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <p>
+          Bem-vindo ao Commanda Digital!<br />Acesse sua
+          conta e começar.
+        </p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" class="ion-padding">
+        <ion-input
+          mode="md"
+          label-placement="stacked"
+          fill="outline"
+          label="Nome de usuário"
+          aria-label="Login"
+          type="email"
+          required
+          [(ngModel)]="email"
+        ></ion-input>
+      </ion-col>
+      <ion-col size="12" class="ion-padding">
+        <ion-input
+          mode="md"
+          label-placement="floating"
+          fill="outline"
+          type="password"
+          label="Senha"
+          aria-label="Senha"
+          [(ngModel)]="password"
+          ><ion-input-password-toggle slot="end"></ion-input-password-toggle
+        ></ion-input>
+      </ion-col>
+      <ion-col size="12" class="ion-padding">
+        <ion-button
+          expand="block"
+          aria-label="Fazer login no TeamFit"
+          (click)="doLogin()"
+          [disabled]="!checkFilled()"
+          >Acessar</ion-button
+        >
+        <ion-button
+          expand="block"
+          aria-label="Mudar a senha no TeamFit - Esqueci a Senha"
+          fill="flat"
+          >Esqueci minha senha</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,18 @@
+.cancelado{
+    pointer-events: none;
+    h1, p, ion-chip{
+        opacity: .5;
+    }
+}
+
+.strong{
+    font-weight: bold;
+}
+
+ion-text{
+    &.warning{
+        font-size: .85em;
+        font-weight: bold;
+        color: var(--ion-color-warning-shade);
+    }
+}

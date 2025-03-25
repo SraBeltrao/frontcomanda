@@ -1,0 +1,21 @@
+.mesa{
+
+    cursor: pointer;
+
+    &.disponivel{
+        color: var(--ion-color-success-shade);
+    }
+    &.indisponivel{
+        color: var(--ion-color-warning-shade);
+    }
+    h2{
+        font-size: 2em;;
+        text-align: center;
+        font-weight: bold;
+        margin: 1em auto;
+    }
+
+    .detalhes{
+        text-align: center;
+    }
+}

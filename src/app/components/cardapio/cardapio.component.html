@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Cardápio</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+  <ion-list lines="full" [inset]="true"  *ngFor="let grupo of cardapio">
+    <ion-list-header>
+      <ion-label>{{grupo.categoria}}</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let item of grupo.itens" button="true" (click)="adicionarItem(item)">
+      <ion-label>
+        <h1>{{ item.nome }}</h1>
+        <p>{{item.descricao}} <i *ngIf="item.vegano">(vegano)</i></p>
+        <p><b>Serve {{item.serve_pessoas}} pessoa<span *ngIf="item.serve_pessoas.length > 1">s</span></b></p>
+      </ion-label>
+      <ion-chip slot="end">
+        {{ item.preco | currency : 'BRL' }}
+      </ion-chip>
+    </ion-item>
+  </ion-list>
+</ion-content>

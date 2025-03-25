@@ -1,0 +1,148 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Voltar</ion-button>
+    </ion-buttons>
+    <ion-title>Comanda {{ idComanda }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="adicionarItem()" [strong]="true"
+        >Adicionar Item</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content color="light">
+  <ion-list lines="full" [inset]="true">
+    <ion-item-divider>
+      <ion-label> Pedidos</ion-label>
+    </ion-item-divider>
+    <ion-item-sliding
+      *ngFor="let pedido of comanda.pedidos"
+      [ngClass]="pedido.status == 'Cancelado' ? 'cancelado' : 'aberto'"
+    >
+      <ion-item-options side="start">
+        <ion-item-option
+          color="success"
+          *ngIf="pedido.status !== 'Entregue'"
+          (click)="entregarItem(pedido.id)"
+          ><ion-icon
+            name="checkmark-circle"
+            color="light"
+            size="large"
+            class="ion-padding"
+          ></ion-icon
+        ></ion-item-option>
+        <ion-item-option
+          color="warning"
+          *ngIf="pedido.status == 'Entregue'"
+          (click)="desfazerEntregaItem(pedido.id)"
+          ><ion-icon
+            name="arrow-undo"
+            size="large"
+            class="ion-padding"
+          ></ion-icon
+        ></ion-item-option>
+      </ion-item-options>
+      <ion-item>
+        <ion-label>
+          <h1>{{ pedido.item.nome }}</h1>
+          <p>{{ pedido.item.descricao }}</p>
+          <ion-icon
+            *ngIf="pedido.status == 'Pedido'"
+            color="warning"
+            name="alert-circle"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="pedido.status == 'Preparando'"
+            color="warning"
+            name="timer"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="pedido.status == 'Pronto'"
+            color="warning"
+            name="checkmark"
+          ></ion-icon>
+          <ion-text class="warning" *ngIf="pedido.status == 'Pronto'"> O pedido está pronto para ser servido</ion-text>
+          <ion-icon
+            *ngIf="pedido.status == 'Entregue'"
+            color="success"
+            name="checkmark-done"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="pedido.status == 'Retornado'"
+            color="warning"
+            name="arrow-undo"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="pedido.status == 'Aguardando Repreparo'"
+            color="warning"
+            name="hourglass"
+          ></ion-icon>
+          <ion-icon
+            *ngIf="pedido.status == 'Cancelado'"
+            name="close"
+          ></ion-icon>
+        </ion-label>
+        <ion-chip
+          [outline]="true"
+          class="strong"
+          slot="end"
+          *ngIf="pedido.status !== 'Cancelado'"
+          [color]="pedido.status == 'Entregue' ? 'success' : 'warning'"
+        >
+          {{ pedido.preco | currency : "BRL" }}
+        </ion-chip>
+        <ion-chip slot="end" *ngIf="pedido.status == 'Cancelado'">
+          Cancelado
+        </ion-chip>
+      </ion-item>
+      <ion-item-options *ngIf="pedido.status !== 'Entregue'">
+        <ion-item-option color="danger" (click)="removerItem(pedido.id)"
+          ><ion-icon name="trash" class="ion-padding"></ion-icon
+        ></ion-item-option>
+        <ion-item-option color="warning" (click)="cancelarItem(pedido.id)"
+          >Cancelar</ion-item-option
+        >
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-list lines="full" [inset]="true">
+    <ion-item-divider>
+      <ion-label> Totais</ion-label>
+    </ion-item-divider>
+    <ion-item class="strong" lines="none">
+      <ion-label> Subtotal </ion-label>
+      <ion-chip [outline]="true" class="strong" slot="end" color="primary">
+        {{ comanda.total | currency : "BRL" }}
+      </ion-chip>
+    </ion-item>
+  </ion-list>
+  <p class="ion-padding-start ion-padding-end" *ngIf="!isComandaEcenrravel()">
+    <ion-icon name="warning" color="warning" size="tiny"></ion-icon
+    >Para encerrar a comanda é necessário que todos os pedidos estejam marcados
+    como Cancelado ou Entregues.
+  </p>
+  <div
+    *ngIf="comanda.pedidos?.length"
+    class="ion-padding-start ion-padding-end ion-padding-bottom"
+  >
+    <ion-button
+      size="block"
+      (click)="fecharComanda()"
+      [disabled]="!isComandaEcenrravel()"
+      >Encerrar Comanda</ion-button
+    >
+  </div>
+  <div
+    *ngIf="!comanda.pedidos?.length"
+    class="ion-padding-start ion-padding-end ion-padding-bottom"
+  >
+    <ion-button
+      size="block"
+      (click)="removerComanda()"
+      fill="outline"
+      color="warning"
+      >Cancelar Comanda</ion-button
+    >
+  </div>
+</ion-content>
